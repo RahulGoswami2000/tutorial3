@@ -149,7 +149,7 @@ function Registration() {
           helperText={confirmPasswordError}
           onChange={handleConfPassChange}
         />
-        <Button type="submit" variant="contained" disabled={!isValidated}>Save</Button>
+        <Button type="submit" variant="contained" disabled={!isValid}>Save</Button>
       </Box>
     </>
   );
