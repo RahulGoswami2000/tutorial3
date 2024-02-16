@@ -1,6 +1,6 @@
 import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
   const [password, setPassword] = useState("");
@@ -11,25 +11,33 @@ function Registration() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const history = useHistory();
+  const [redirect, setRedirect] = useState(false);
+  const [formData, setFormData] = useState({
+     firstname: "",
+     lastname: "",
+     email: ""
+  });
 
   const handleFirstName = (event) => {
     const first_name = event.target.value;
     const isValidFirstName = /^[a-zA-Z]+$/.test(first_name);
     setFirstNameError(!isValidFirstName);
     isValidated();
+    setFormData({...formData, firstname:first_name});
   };
   const handleLastName = (event) => {
     const last_name = event.target.value;
     const isValidLastName = /^[a-zA-Z]+$/.test(last_name);
     setLastNameError(!isValidLastName);
     isValidated();
+    setFormData({...formData, lastname:last_name});
   };
   const handleEmailChange = (event) => {
     const email = event.target.value;
     const isValidEmail = /\S+@\S+\.\S+/.test(email);
     setEmailError(!isValidEmail);
     isValidated();
+    setFormData({...formData, email:email});
   };
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
@@ -63,10 +71,15 @@ function Registration() {
         !confirmPasswordError
     );
   };
+
   
-  const handleSubmit = () => {
-     history.push("/profile");
-  }
+
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+     event.preventDefault();
+     console.log(formData);
+     navigate(`/profile?first_name=${formData.firstname}&last_name=${formData.lastname}&email=${formData.email}`);
+   };
   return (
     <>
       <Box
